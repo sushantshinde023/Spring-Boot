@@ -2,6 +2,7 @@ package com.springprojects.firstjobapp.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,13 @@ public class JobServiceImpl implements JobService{
 		job.setId(nextId++);
 		jobs.add(job);
 		
+	}
+
+	@Override
+	public Optional<Job> findById(Long id) {
+		// TODO Auto-generated method stub
+		Optional<Job> job=jobs.stream().filter(j->j.getId()==id).findAny();
+		return job ;
 	}
 
 }
