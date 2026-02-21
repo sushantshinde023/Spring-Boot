@@ -25,11 +25,11 @@ public class JobServiceImpl implements JobService{
 		jobs.add(job);
 		
 	}
-
 	@Override
 	public Optional<Job> findById(Long id) {
+		
 		// TODO Auto-generated method stub
-		Optional<Job> job=jobs.stream().filter(j->j.getId()==id).findAny();
+		Optional<Job> job=jobs.stream().filter(j -> j.getId().equals(id)).findAny();
 		return job ;
 	}
 
