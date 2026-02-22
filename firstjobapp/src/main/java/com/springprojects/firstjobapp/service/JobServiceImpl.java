@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.springprojects.firstjobapp.entity.Job;
 
 @Service
-public class JobServiceImpl implements JobService{
+public class JobServiceImpl implements JobService {
 	private List<Job> jobs=new ArrayList<>(List.of(new Job(111L,"Java Developer","Should have Java Hands on experience","8L","12L","Pune")));
 	private Long nextId=2L;
 	@Override
@@ -32,5 +32,14 @@ public class JobServiceImpl implements JobService{
 		Optional<Job> job=jobs.stream().filter(j -> j.getId().equals(id)).findAny();
 		return job ;
 	}
+
+	@Override
+	public Optional<Job> deleteById(Long id) {
+		Optional<Job> job=jobs.stream().filter(j -> j.getId().equals(id)).findAny();
+		if(job.isPresent())
+			jobs.remove(job.get());
+		return job;
+	}
+
 
 }

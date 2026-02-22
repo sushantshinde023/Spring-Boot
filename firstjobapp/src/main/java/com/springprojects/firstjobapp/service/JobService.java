@@ -10,5 +10,6 @@ public interface JobService {
 	List<Job> findAll();
 	void createJob(Job job);
 	 Optional<Job> findById(Long id);
+	 Optional<Job> deleteById(Long id);
 
 }
