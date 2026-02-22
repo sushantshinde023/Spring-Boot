@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.springprojects.firstjobapp.entity.Job;
@@ -39,6 +40,23 @@ public class JobServiceImpl implements JobService {
 		if(job.isPresent())
 			jobs.remove(job.get());
 		return job;
+	}
+
+	@Override
+	public boolean updateById(Long id, Job newJob) {
+		// TODO Auto-generated method stub
+		
+		Optional<Job> job= findById(id);
+		 if(job.isPresent()) {
+			 Job jobToBeUpdated=job.get();
+			 jobToBeUpdated.setDescription(newJob.getDescription());
+			 jobToBeUpdated.setLocation(newJob.getLocation());
+			 jobToBeUpdated.setMaxSalary(newJob.getMaxSalary());
+			 jobToBeUpdated.setMinSalary(newJob.getMinSalary());
+			 jobToBeUpdated.setTitle(newJob.getTitle());
+			 return true;
+		 }else
+			 return false;
 	}
 
 
