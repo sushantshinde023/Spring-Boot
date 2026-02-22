@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.springprojects.firstjobapp.entity.Job;
 import com.springprojects.firstjobapp.repository.JobRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class JobServiceImpl implements JobService {
 	@Autowired
@@ -24,6 +26,7 @@ public class JobServiceImpl implements JobService {
 	}
 
 	@Override
+	@Transactional
 	public void createJob(Job job) {
 		// TODO Auto-generated method stub
 		jobRepository.save(job);
@@ -48,6 +51,7 @@ public class JobServiceImpl implements JobService {
 	}
 
 	@Override
+	@Transactional
 	public boolean updateById(Long id, Job newJob) {
 		// TODO Auto-generated method stub
 		
@@ -59,6 +63,7 @@ public class JobServiceImpl implements JobService {
 			 jobToBeUpdated.setMaxSalary(newJob.getMaxSalary());
 			 jobToBeUpdated.setMinSalary(newJob.getMinSalary());
 			 jobToBeUpdated.setTitle(newJob.getTitle());
+			 jobRepository.save(jobToBeUpdated);
 			 return true;
 		 }else
 			 return false;
