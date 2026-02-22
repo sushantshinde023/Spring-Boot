@@ -4,49 +4,54 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springprojects.firstjobapp.entity.Job;
+import com.springprojects.firstjobapp.repository.JobRepository;
 
 @Service
 public class JobServiceImpl implements JobService {
+	@Autowired
+	private JobRepository jobRepository;
+	
 	private List<Job> jobs=new ArrayList<>(List.of(new Job(111L,"Java Developer","Should have Java Hands on experience","8L","12L","Pune")));
 	private Long nextId=2L;
 	@Override
 	public List<Job> findAll() {
 		// TODO Auto-generated method stub
-		return jobs;
+		return jobRepository.findAll();
 	}
 
 	@Override
 	public void createJob(Job job) {
 		// TODO Auto-generated method stub
-		job.setId(nextId++);
-		jobs.add(job);
+		jobRepository.save(job);
 		
 	}
 	@Override
 	public Optional<Job> findById(Long id) {
 		
 		// TODO Auto-generated method stub
-		Optional<Job> job=jobs.stream().filter(j -> j.getId().equals(id)).findAny();
-		return job ;
+		return jobRepository.findById(id) ;
 	}
 
 	@Override
-	public Optional<Job> deleteById(Long id) {
-		Optional<Job> job=jobs.stream().filter(j -> j.getId().equals(id)).findAny();
-		if(job.isPresent())
-			jobs.remove(job.get());
-		return job;
+	public boolean deleteById(Long id) {
+		try {
+			jobRepository.deleteById(id);
+			return true;
+		}catch(Exception e) {
+			return false;
+		}
+		 
 	}
 
 	@Override
 	public boolean updateById(Long id, Job newJob) {
 		// TODO Auto-generated method stub
 		
-		Optional<Job> job= findById(id);
+		Optional<Job> job= jobRepository.findById(id);
 		 if(job.isPresent()) {
 			 Job jobToBeUpdated=job.get();
 			 jobToBeUpdated.setDescription(newJob.getDescription());
