@@ -17,8 +17,6 @@ public class JobServiceImpl implements JobService {
 	@Autowired
 	private JobRepository jobRepository;
 	
-	private List<Job> jobs=new ArrayList<>(List.of(new Job(111L,"Java Developer","Should have Java Hands on experience","8L","12L","Pune")));
-	private Long nextId=2L;
 	@Override
 	public List<Job> findAll() {
 		// TODO Auto-generated method stub
@@ -63,6 +61,7 @@ public class JobServiceImpl implements JobService {
 			 jobToBeUpdated.setMaxSalary(newJob.getMaxSalary());
 			 jobToBeUpdated.setMinSalary(newJob.getMinSalary());
 			 jobToBeUpdated.setTitle(newJob.getTitle());
+			 jobToBeUpdated.setCompany(newJob.getCompany());
 			 jobRepository.save(jobToBeUpdated);
 			 return true;
 		 }else
