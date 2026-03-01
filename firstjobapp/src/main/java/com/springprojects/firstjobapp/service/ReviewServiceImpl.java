@@ -59,6 +59,7 @@ public class ReviewServiceImpl implements ReviewService {
 			Review review = reviewRepository.findById(reviewId).orElse(null);
 			Company company=review.getCompany();
 			company.getReview().remove(review);
+			review.setCompany(null);
 			companyService.updateById(companyId,company);
 			
 			reviewRepository.deleteById(reviewId);
