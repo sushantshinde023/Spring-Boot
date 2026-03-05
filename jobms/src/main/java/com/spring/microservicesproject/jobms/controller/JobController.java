@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.spring.microservicesproject.jobms.dto.JobWithCompanyDTO;
 import com.spring.microservicesproject.jobms.entity.Job;
 import com.spring.microservicesproject.jobms.service.JobService;
 
@@ -26,8 +27,8 @@ public class JobController {
 	private JobService jobService ;
 	
 	@GetMapping("/jobs")
-	public ResponseEntity<List<Job>> findAll(){
-		List<Job> jobs=jobService.findAll();
+	public ResponseEntity<List<JobWithCompanyDTO>> findAll(){
+		List<JobWithCompanyDTO> jobs=jobService.findAll();
 		return new ResponseEntity<>( jobService.findAll(),HttpStatus.OK);
 	}
 	
