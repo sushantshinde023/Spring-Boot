@@ -21,14 +21,16 @@ public class JobServiceImpl implements JobService {
 	@Autowired
 	private JobRepository jobRepository;
 	
+	@Autowired
+	RestTemplate restTemplate;
+	
 	@Override
 	public List<JobWithCompanyDTO> findAll() {
 		// TODO Auto-generated method stub
 		List<Job> jobs=jobRepository.findAll();
 		
-		RestTemplate  restTemplate = new RestTemplate();
 		
-		List<JobWithCompanyDTO> jobWithCompanyDto=jobs.stream().map(job-> new JobWithCompanyDTO(job,restTemplate.getForObject("http://localhost:8081/companies/"+job.getCompanyId(), Company.class))).collect(Collectors.toList());;
+		List<JobWithCompanyDTO> jobWithCompanyDto=jobs.stream().map(job-> new JobWithCompanyDTO(job,restTemplate.getForObject("http://COMPANYMS/companies/"+job.getCompanyId(), Company.class))).collect(Collectors.toList());;
 		//Company company=restTemplate.getForObject("http://localhost:8081/companies/1", Company.class);
 		//System.out.println("++++++++++++++++++++++++++++++++++++"+company.getName());
 		return jobWithCompanyDto;
