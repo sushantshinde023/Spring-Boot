@@ -39,10 +39,10 @@ public class JobController {
 	}
 	
 	@GetMapping("/jobs/{id}")
-	public  ResponseEntity<Job> findById(@PathVariable Long id) {
-		 Optional<Job> job= jobService.findById(id);
-		 if(job.isPresent())
-			 return ResponseEntity.ok(job.get());
+	public  ResponseEntity<JobWithCompanyDTO> findById(@PathVariable Long id) {
+		JobWithCompanyDTO jobWithCompanyDTO= jobService.findById(id);
+		 if(jobWithCompanyDTO!=null)
+			 return ResponseEntity.ok(jobWithCompanyDTO);
 		 else
 			 return ResponseEntity.notFound().build();
 	}
