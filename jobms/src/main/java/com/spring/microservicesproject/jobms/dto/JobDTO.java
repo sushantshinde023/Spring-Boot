@@ -1,9 +1,12 @@
 package com.spring.microservicesproject.jobms.dto;
 
-import com.spring.microservicesproject.jobms.entity.Job;
-import com.spring.microservicesproject.jobms.entity.external.Company;
 
-public class JobWithCompanyDTO {
+import java.util.List;
+
+import com.spring.microservicesproject.jobms.entity.external.Company;
+import com.spring.microservicesproject.jobms.entity.external.Review;
+
+public class JobDTO {
 	private Long id;
 	private String title;
 	private String description;
@@ -12,7 +15,10 @@ public class JobWithCompanyDTO {
 	private String location;
 	private Company company;
 	
-	public JobWithCompanyDTO() {
+	private List<Review> reviews;
+	
+	
+	public JobDTO() {
 		
 	}
 	
@@ -96,6 +102,21 @@ public class JobWithCompanyDTO {
 	public void setCompany(Company company) {
 		this.company = company;
 	}
-	
 
+
+
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+
+
+
+	
+	
 }

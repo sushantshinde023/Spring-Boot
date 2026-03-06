@@ -1,17 +1,20 @@
 package com.spring.microservicesproject.jobms.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.spring.microservicesproject.jobms.dto.JobWithCompanyDTO;
+import com.spring.microservicesproject.jobms.dto.JobDTO;
 import com.spring.microservicesproject.jobms.entity.Job;
 import com.spring.microservicesproject.jobms.entity.external.Company;
+import com.spring.microservicesproject.jobms.entity.external.Review;
 import com.spring.microservicesproject.jobms.mapper.JobMapper;
 import com.spring.microservicesproject.jobms.repository.JobRepository;
 
@@ -26,15 +29,16 @@ public class JobServiceImpl implements JobService {
 	RestTemplate restTemplate;
 	
 	@Override
-	public List<JobWithCompanyDTO> findAll() {
+	public List<JobDTO> findAll() {
 		// TODO Auto-generated method stub
 		List<Job> jobs=jobRepository.findAll();
 		
 		
-		List<JobWithCompanyDTO> jobWithCompanyDto=jobs.stream().map(job->JobMapper.mapToJobWithCompanyDto(job,restTemplate.getForObject("http://COMPANYMS/companies/"+job.getCompanyId(), Company.class))).collect(Collectors.toList());
+		List<JobDTO> jobDto=jobs.stream().map(job->JobMapper.mapToJobWithCompanyDto(job,restTemplate.getForObject("http://COMPANYMS/companies/"+job.getCompanyId(), Company.class),restTemplate.exchange("http://REVIEWMS/reviews?companyId="+job.getCompanyId(), HttpMethod.GET,null,new ParameterizedTypeReference<List<Review>>() {
+		}).getBody())).collect(Collectors.toList());
 		//Company company=restTemplate.getForObject("http://localhost:8081/companies/1", Company.class);
 		//System.out.println("++++++++++++++++++++++++++++++++++++"+company.getName());
-		return jobWithCompanyDto;
+		return jobDto;
 	}
 
 	@Override
@@ -45,13 +49,16 @@ public class JobServiceImpl implements JobService {
 		
 	}
 	@Override
-	public JobWithCompanyDTO findById(Long id) {
+	public JobDTO findById(Long id) {
 		
 		// TODO Auto-generated method stub
 		Job job=jobRepository.findById(id).orElse(null);
 		Company company=restTemplate.getForObject("http://COMPANYMS/companies/"+job.getCompanyId(), Company.class);
-		JobWithCompanyDTO jobWithCompanyDto=JobMapper.mapToJobWithCompanyDto(job, company);
-		return jobWithCompanyDto;
+		ResponseEntity<List<Review>> reviewResponse=restTemplate.exchange("http://REVIEWMS/reviews?companyId="+job.getCompanyId(), HttpMethod.GET,null,new ParameterizedTypeReference<List<Review>>() {
+		});
+		List<Review> reviews=reviewResponse.getBody();
+		JobDTO jobDto=JobMapper.mapToJobWithCompanyDto(job, company,reviews);
+		return jobDto;
 	}
 
 	@Override
