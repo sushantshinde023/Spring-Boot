@@ -33,6 +33,14 @@ services:
     networks:
       - job-network
 
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - job-network
+
 volumes:
   postgres_data:
   pgadmin_data:

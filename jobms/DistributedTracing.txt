@@ -1,0 +1,53 @@
+1. How to trace request from start to end in microservice?
+==> In case of failure we will need to trace request in monolithic it was as evrything is in one application but in microservice we will different service
+	So to get view of request travelling different microservices Distributed tracing helps
+	Distributed tracing enables to trace request from start to end
+	Ditributed Tracing solves : 
+			- Request Visualization
+			- Identify Performance Bottleneck
+			- Error Analysis and Debugging
+			- Tracking Dependencies
+			- Performance optimization
+==============================================
+***Zipkin***
+
+	- Zipkin is an open source distributed tracing System.
+	- Below are the components of Zipkin
+		- Collector - Application sends Tracing to Collector. 
+						- Collector will accept the data over transport mode like Http,RabbitMQ,Kafka
+		- Storage - The collected data needs to be stored somewhere and zipkin offers different storage System Like cassendra,MySQL,Elastic search
+		- Search - Zipkin provides  API and Web interface to search  for traces in the storage we have
+		- Visualization - Once you find trace Zipkin shows you request flow in detail
+		
+	- What  is Trace ?
+	
+		-  A trtace is a discription of a  transaction as it moves through distributed system
+		-  We can think trace as a journey of request
+		-  Have all details time and all
+		
+		
+	- What is Span ?
+		- Basic unit of work
+		- e.g. first unit of work can be Sending a Http request this is one span, Sending Response another unit work i.e. span
+		
+- Span and Trace are represented by ids i.e. Trace ID(entire request) , span represented with span ID(Individual unit of work) 
+- You have Trace and TraceID at parent level and under each trace ID we will have Multiple Span with Span ID to  show different kind of work that happen		
+
+
+
+===========================================================
+
+*** Micrometer ***
+
+	-Micrometer provides insights that help you keep tabs on your application's performance
+	- Micrometer helps you to collect metrics from your application
+	- It offers a vendor - neutral interface
+	
+	
+	==============================================
+	
+Note : since we are using open feign to trace request which goes through feign we will feign micrometer dependency
+<dependency>
+    	<groupId>io.github.openfeign</groupId>
+    	<artifactId>feign-micrometer</artifactId>
+    </dependency>
