@@ -1,0 +1,6 @@
+Configuration Management :
+
+	- Simply means managing and controlling the configurations of each microservice in the system
+	- Configuration may include details such as database connections, external service URLs, caching settings and more
+	- Challenge : as the number of microservices increases in your architecture, managing the individual configurations can become a complex task
+	- A centralized config server provides a central place for managing configurations across all microservices

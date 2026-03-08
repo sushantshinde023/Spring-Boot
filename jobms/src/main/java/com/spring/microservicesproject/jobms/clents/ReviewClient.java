@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.spring.microservicesproject.jobms.entity.external.Review;
 
-@FeignClient("REVIEWMS")
+@FeignClient("REVIEW-SERVICE")
 public interface ReviewClient {
 	
 	@GetMapping("/reviews")
