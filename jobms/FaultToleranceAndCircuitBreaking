@@ -20,7 +20,7 @@ Fault Tolerance Needed because of below reasons
  		
  	Techniques:
  	
- 		- Retries 9Automatically retry certain number of times)- This will be useful if there temprory issue like network latency
+ 		- Retries - Automatically retry certain number of times)- This will be useful if there temprory issue like network latency
  		- Rate Limiting - controlling number of request handled by service within time frame
  		- Bulkheads
  		- Circuit Breakers 
