@@ -18,12 +18,14 @@ import com.spring.microservicesproject.jobms.mapper.JobMapper;
 import com.spring.microservicesproject.jobms.repository.JobRepository;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import jakarta.transaction.Transactional;
 
 @Service
 public class JobServiceImpl implements JobService {
 	@Autowired
 	private JobRepository jobRepository;
+	 private int attempt=0;
 
 	
 	@Autowired
@@ -57,8 +59,9 @@ public class JobServiceImpl implements JobService {
 		
 	}
 	@Override
+	@Retry(name="companyBreaker", fallbackMethod = "companyBreakerFallback")
 	public JobDTO findById(Long id) {
-		
+		System.out.println("Attempts : "+ ++attempt);
 		// TODO Auto-generated method stub
 		Job job=jobRepository.findById(id).orElse(null);
 		Company company=companyClient.getCompany(job.getCompanyId());
