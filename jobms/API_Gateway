@@ -1,0 +1,25 @@
+
+
+Microservices Arcghitecture : A monolithic application is broken down into smaller , loosely coupled services
+but what is entry point of our application, each service has different endpoints but user does not care about our underline structure so for user our application is single entity as whole
+Here API Gateway comes in picture, it act as single entry point for client request
+
+Advantages :-
+- API Gateway provides encapsulation to our application and provide abstraction.
+- Handle cross cutting concerns like security, load balancing, rate limiting and analytics
+- Can authenticate incoming requests and pass only valid requests to the services
+- Can aggregate response from different microsevices
+- Plays crucial role with client interactions
+
+
+API Gateway Functions
+
+	- Request Routing to appropriate microservice
+	- Load Balancing (evenly Distribute traffic with available instances)
+	- Authentication and Authorization
+	- Rate Limiting ( limiting the number of request a client can make to any given service in given amount of time)
+	- Request and Response Transformation
+	- Aggregation of Data from multiple Services
+	
+Spring Clod Gateway from Spring cloud project is used for Gateway
+	
