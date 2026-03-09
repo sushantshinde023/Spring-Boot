@@ -1,0 +1,43 @@
+Fault Tolerance :
+	- Ability to continue operating without interruption
+	- In Microservices each service is running independently, usually microservices communicate with each other, there might be a chance that one of the service may fail, because of that  entire system collapse which is not good
+	- This means our network is not fault tolerance
+	-  failure of one microservice should be limited to that microservice
+	
+Fault Tolerance Needed because of below reasons
+ 	- Fault Isolation
+ 	- Network Latency
+ 	- Deployment Issues
+ 	- Increased Complexity 
+ 	- Elasticity
+ 	- Tolerating External failures
+
+ Resilience4J :
+ 
+ 	- Resilience Means
+ 		- Ability or capacity to recover quickly from difficulties
+ 		- Resilience exists to add fault tolerance to our microservice architecture
+ 		
+ 	Techniques:
+ 	
+ 		- Retries 9Automatically retry certain number of times)- This will be useful if there temprory issue like network latency
+ 		- Rate Limiting - controlling number of request handled by service within time frame
+ 		- Bulkheads
+ 		- Circuit Breakers 
+ 		- Fallbacks - alternate options in case of failure
+ 		- Timeouts 
+ 		- Graceful Degradation
+ 
+ - Resilience4J is a lightweight, easy to use fault tolerance library
+ - Easy Integration with Spring boot
+ - Built for functional programming paradigms
+ - Resilience4J Modules :
+ 	- Retry Module : Retry Module easily enables to implement retry logic in our applications
+ 	- Rate Limiter : RateLimiter allows us to enforce restrictions and protect our services from too many requests
+ 	- Bulkhead : Isolates failures and prevents them from cascading through the system. 
+ 				 - Limit the amount of parallel executions or concurrent calls to prevent system resources from being exhausted
+ 	- CircuitBreaker - Used to prevent a network or service failure from cascading to other services
+ 						- If circuit breaker 'trips' or opens and prevents further calls to the service
+ 						- https://resilience4j.readme.io/docs/circuitbreaker
+ 	
+ 		- 

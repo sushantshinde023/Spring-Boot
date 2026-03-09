@@ -20,6 +20,7 @@ import com.spring.microservicesproject.jobms.entity.external.Review;
 import com.spring.microservicesproject.jobms.mapper.JobMapper;
 import com.spring.microservicesproject.jobms.repository.JobRepository;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -34,6 +35,7 @@ public class JobServiceImpl implements JobService {
 	private ReviewClient reviewClient;
 	
 	@Override
+	@CircuitBreaker(name="companyBreaker")
 	public List<JobDTO> findAll() {
 		// TODO Auto-generated method stub
 		List<Job> jobs=jobRepository.findAll();
