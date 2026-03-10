@@ -40,4 +40,8 @@ Fault Tolerance Needed because of below reasons
  						- If circuit breaker 'trips' or opens and prevents further calls to the service
  						- https://resilience4j.readme.io/docs/circuitbreaker
  	
- 		- 
+ Importance of Rate Limiting
+ 
+ 	- Preventing abuse - malicious user can slow down server with multiple request
+ 	- Resource Allocation - We can ensure that resources are fairly distributed among user
+ 	- Cost Management - API is hosted on cloud and we are paying for amount of traffic it handles

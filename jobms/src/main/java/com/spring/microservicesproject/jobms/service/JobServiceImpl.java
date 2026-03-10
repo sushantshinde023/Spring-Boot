@@ -18,6 +18,7 @@ import com.spring.microservicesproject.jobms.mapper.JobMapper;
 import com.spring.microservicesproject.jobms.repository.JobRepository;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 import jakarta.transaction.Transactional;
 
@@ -60,6 +61,7 @@ public class JobServiceImpl implements JobService {
 	}
 	@Override
 	@Retry(name="companyBreaker", fallbackMethod = "companyBreakerFallback")
+	@RateLimiter(name="companyRateLimiter", fallbackMethod="rateLimiterFallback")
 	public JobDTO findById(Long id) {
 		System.out.println("Attempts : "+ ++attempt);
 		// TODO Auto-generated method stub
@@ -69,7 +71,17 @@ public class JobServiceImpl implements JobService {
 		JobDTO jobDto=JobMapper.mapToJobWithCompanyDto(job, company,reviewResponse);
 		return jobDto;
 	}
+	
+	public JobDTO rateLimiterFallback(Long id, Exception e) {
 
+	    System.out.println("Rate limit exceeded");
+
+	    JobDTO dto = new JobDTO();
+	    dto.setCompany(null);
+
+	    return dto;
+	}
+	
 	@Override
 	public boolean deleteById(Long id) {
 		try {
