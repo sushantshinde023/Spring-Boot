@@ -20,8 +20,22 @@ http.formLogin(withDefaults())-> form will be shown to Login and Logout
 http.httpBasic(withDefaults())-> opoup will be shown for login , logout will not be there
 
 
-Session ID
+=> Session ID
 	By default our browser uses JSESSION cookie for session management
 	when we set session SessionCreationPolicy to STATELESS there will not be JSESSION ID
 
 http.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+=> In Memory Authentication
+
+	- We will be using  InMemoryUserDetailsManager class which implements UserDetailsManager, UserDetailsPasswordService
+	- It manages Users n Memory( Non-persistent implementation of UserDetailsManager which is backed by an in-memory map.) no DB needed
+	- InMemoryUserDetailsManager has constructor which takes UserDetails(I) in built class object. UserDetails implemented by User class implements UserDetails, CredentialsContainer
+	
+		public InMemoryUserDetailsManager(UserDetails... users) {
+		for (UserDetails user : users) {
+			createUser(user);
+		}
+	}
+	
+	- password("{noop}password1") : It means no encoding for password..if we are using any encoding we can provide algorithm
