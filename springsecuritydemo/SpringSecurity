@@ -108,7 +108,9 @@ http.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPol
   		- Filter incoming requests to check for a valid JWT in the header, setting the authentication context if the token is valid
   		- Extracts JWT token from request, validates it and configure the spring security context with user details if token is valid
   		
-  	- AuthEntryPointJwt
+  	- AuthEntryPointJwt implements AuthenticationEntryPoint which interface implemented by our class as well as BasicAuthenticationEntryPoint,DelegatingAuthenticationEntryPoin,DigestAuthenticationEntryPoin,LoginUrlAuthenticationEntryPoin etc
+  	
+  		-commence is method we will be overriding from AuthenticationEntryPoint
   	
   		-  provides custom handling for unauthorized requests, typically when authentication is required but not supplied or valid
   		- when an unauthorized request is detected, it logs the error and returns JSON response with error message,status code and path attempted.
