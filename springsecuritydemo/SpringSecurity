@@ -71,5 +71,55 @@ http.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPol
 	- used to transfer message 
 	- Hashing involves using Algorithms(like bcrypt with salting)
 	- For Each encryption different salt is added
-	- 
-	- 
+
+	
+=> JWT(JSON Web Token) Authentication
+
+  -> Without JWT 
+  	
+  	-  Without JWT we don't have advanced features like expiration Time
+  	-  Can be decoded Easily
+  	-  Should we go for "Custom Token System", so that user need not share username and password each time
+  	-  JSON Web Tokens are an oen and industry standard
+  	-  User tries to login , once user is authenticated , Token is issued to user
+  	-  With Every request Token sent in API requests, Request authorized if valid, else error
+  
+  -> How is Token sent
+  
+  	- Token is sent using HTTP Authorization header
+  	- format : Bearer <token>
+  	- token consist of Header(algorithm+type will be jwt)+payload+signature encoded info
+  	- Algorithm is for signature
+  	
+  	- We will be creating Below classes
+  	
+  		- JwtUtils
+  		- AuthTokenFilter
+  		- AuthEntryPointJwt
+  		- SecurityConfig - we will update
+  		
+  	- JwtUtils
+  	
+  		- JwtUtils class mainly contains utility methods for generating, parsing and validating JWTs
+  		- Include generating a token from username, Validating a JWT token and extracting the token from username
+  	
+  	- AuthTokenFilter
+  	
+  		- Filter incoming requests to check for a valid JWT in the header, setting the authentication context if the token is valid
+  		- Extracts JWT token from request, validates it and configure the spring security context with user details if token is valid
+  		
+  	- AuthEntryPointJwt
+  	
+  		-  provides custom handling for unauthorized requests, typically when authentication is required but not supplied or valid
+  		- when an unauthorized request is detected, it logs the error and returns JSON response with error message,status code and path attempted.
+  		
+  	-  SecurityConfig
+  	
+  		- configures spring security filters and rules for application
+  		- Sets up the security filter chain, permitting or denying access based paths and roles.
+  		- It also configures session management to stateless, which is crucial for JWT usage
+  		
+  	- Dependencies -> https://github.com/jwtk/jjwt?tab=readme-ov-file#maven
+
+  	
+  	
