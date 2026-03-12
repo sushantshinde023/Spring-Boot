@@ -15,3 +15,13 @@
 	- Once Authentication is done the authenticated object is given back to Authentication Manager then Authentication filter which will store in Security Context
 	
 SpringBootWebSecurityConfiguration - default configuration - defaultSecurityFilterChain method
+
+http.formLogin(withDefaults())-> form will be shown to Login and Logout
+http.httpBasic(withDefaults())-> opoup will be shown for login , logout will not be there
+
+
+Session ID
+	By default our browser uses JSESSION cookie for session management
+	when we set session SessionCreationPolicy to STATELESS there will not be JSESSION ID
+
+http.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
