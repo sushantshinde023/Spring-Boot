@@ -14,7 +14,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -39,13 +40,20 @@ public class SecurityConfig {
 	
 	@Bean
 	public UserDetailsService userDetailsService() {
-		UserDetails user1= User.withUsername("User1").password("{noop}password1").roles("USER").build();
-		UserDetails admin= User.withUsername("admin").password("{noop}adminPassword").roles("ADMIN").build();
+		UserDetails user1= User.withUsername("User1").password(passwordEncoder().encode("password1")).roles("USER").build();
+		UserDetails admin= User.withUsername("admin").password(passwordEncoder().encode("adminPassword")).roles("ADMIN").build();
+		//UserDetails user1= User.withUsername("User1").password("{noop}password1").roles("USER").build();
+		//UserDetails admin= User.withUsername("admin").password("{noop}adminPassword").roles("ADMIN").build();
 		//when using Database we have to use JdbcUserDetailsManager it takes DataSource as parameter
 		JdbcUserDetailsManager userDetailsManager= new JdbcUserDetailsManager(dataSource);
 		userDetailsManager.createUser(admin);
 		userDetailsManager.createUser(user1);
 		return userDetailsManager;
 		//return new InMemoryUserDetailsManager(user1,admin);
+	}
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 }

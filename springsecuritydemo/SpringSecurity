@@ -64,3 +64,12 @@ http.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPol
 	
 	to create schema we can use Spring security project ddl (/org/springframework/security/core/userdetails/jdbc/users.ddl), create file under resources it will be picked automatically
 	For other DB we need not to have the schema.sql except H@, we can run directly in db . In H2 db refresh with each run so needed that
+	
+	
+=> Hashing
+
+	- used to transfer message 
+	- Hashing involves using Algorithms(like bcrypt with salting)
+	- For Each encryption different salt is added
+	- 
+	- 
