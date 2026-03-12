@@ -39,3 +39,9 @@ http.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPol
 	}
 	
 	- password("{noop}password1") : It means no encoding for password..if we are using any encoding we can provide algorithm
+	
+=> Role Based Authentication
+
+	- In our application there might be some resources accessible with ADMIN role some with USER role
+	- @PreAuthorize("hasRole('USER')")
+	- @EnableMethodSecurity
