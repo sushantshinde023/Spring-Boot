@@ -103,7 +103,7 @@ http.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPol
   		- JwtUtils class mainly contains utility methods for generating, parsing and validating JWTs
   		- Include generating a token from username, Validating a JWT token and extracting the token from username
   	
-  	- AuthTokenFilter
+  	- AuthTokenFilter extends abstract class OncePerRequestFilter which has method doFilterInternal
   	
   		- Filter incoming requests to check for a valid JWT in the header, setting the authentication context if the token is valid
   		- Extracts JWT token from request, validates it and configure the spring security context with user details if token is valid
