@@ -14,3 +14,4 @@
 	- UserDetailsService will load user details with Username
 	- Once Authentication is done the authenticated object is given back to Authentication Manager then Authentication filter which will store in Security Context
 	
+SpringBootWebSecurityConfiguration - default configuration - defaultSecurityFilterChain method
