@@ -45,3 +45,22 @@ http.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPol
 	- In our application there might be some resources accessible with ADMIN role some with USER role
 	- @PreAuthorize("hasRole('USER')")
 	- @EnableMethodSecurity
+	
+=> Spring security with H2 Database
+
+	we will be moving below  in memory configuration to Database
+	
+	
+	@Bean
+	public UserDetailsService userDetailsService() {
+		UserDetails user1= User.withUsername("User1").password("{noop}password1").roles("USER").build();
+		UserDetails admin= User.withUsername("admin").password("{noop}adminPassword").roles("ADMIN").build();
+		return new InMemoryUserDetailsManager(user1,admin);
+	}
+	
+	- .requestMatchers("/h2-console/**").permitAll()
+	 and http.csrf(csrf->csrf.disable());
+	this will exclude the api from authentication
+	
+	to create schema we can use Spring security project ddl (/org/springframework/security/core/userdetails/jdbc/users.ddl), create file under resources it will be picked automatically
+	For other DB we need not to have the schema.sql except H@, we can run directly in db . In H2 db refresh with each run so needed that
