@@ -1,15 +1,27 @@
 package com.sushant.asyncordersystem.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "orders")
 public class Order {
-	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String customerName;
 	private String product;
 	private double price;
 	private String status;
-	public Order(Long id, String customerName, String product, double price, String status) {
+	
+	public Order() {
+		
+	}
+	public Order(String customerName, String product, double price, String status) {
 		super();
-		this.id = id;
 		this.customerName = customerName;
 		this.product = product;
 		this.price = price;

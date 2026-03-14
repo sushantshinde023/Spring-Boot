@@ -611,3 +611,130 @@ SRP – Controller handles HTTP requests while service handles business logic.
 ## Key Learning
 
 API layer should remain independent from persistence layer.
+
+
+# Module 3 – Database Integration (JPA + PostgreSQL)
+
+## What We Built
+
+Replaced in-memory storage with PostgreSQL database using Spring Data JPA.
+
+Architecture:
+
+Controller → Service → Repository → Hibernate → PostgreSQL
+
+## ORM (Object Relational Mapping)
+
+ORM maps Java objects to relational database tables.
+
+Example mapping:
+
+Order object → orders table
+
+Fields map to columns.
+
+Hibernate handles conversion between objects and SQL queries.
+
+## Repository Pattern
+
+Repository layer abstracts database operations.
+
+Example:
+
+OrderRepository extends JpaRepository
+
+Spring automatically generates implementation.
+
+## SOLID Principle
+
+Dependency Inversion Principle
+
+Service depends on repository interface rather than database implementation.
+
+This ensures loose coupling and easy database replacement.
+
+## Key Learning
+
+Spring Data JPA significantly reduces boilerplate database code and promotes clean architecture.
+
+# Module 3.1 – Local Database Setup using Docker
+
+## Why Docker for Database?
+
+Using Docker ensures consistent development environments.
+
+Benefits:
+
+- No need to install PostgreSQL locally
+- Same environment across developers
+- Easy database reset
+- Easy containerized deployments
+
+Architecture:
+
+Spring Boot App → PostgreSQL Docker Container
+
+## Services Used
+
+Two containers are used:
+
+1. PostgreSQL – database server
+2. pgAdmin – database management UI
+
+## PostgreSQL Container
+
+Image:
+
+postgres:16
+
+Environment variables automatically create database credentials.
+
+POSTGRES_DB → orders_db  
+POSTGRES_USER → postgres  
+POSTGRES_PASSWORD → postgres
+
+Port mapping:
+
+5432:5432
+
+Host machine can access database using localhost:5432.
+
+## Data Persistence
+
+Docker volumes are used:
+
+postgres_data:/var/lib/postgresql/data
+
+This ensures database data remains even if container restarts.
+
+## pgAdmin
+
+pgAdmin provides web interface for PostgreSQL.
+
+Accessible at:
+
+http://localhost:5050
+
+Used for:
+
+- Viewing tables
+- Running queries
+- Database debugging
+
+## Docker Networking
+
+Both containers are connected using a bridge network.
+
+Network name:
+
+order-network
+
+This allows pgAdmin to connect to PostgreSQL using service name:
+
+postgres
+
+instead of localhost.
+
+## Key Learning
+
+Using Docker for infrastructure components like databases is a common practice in modern backend development.

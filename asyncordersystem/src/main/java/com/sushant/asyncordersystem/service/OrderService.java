@@ -1,48 +1,48 @@
 package com.sushant.asyncordersystem.service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.sushant.asyncordersystem.dto.OrderRequest;
 import com.sushant.asyncordersystem.dto.OrderResponse;
 import com.sushant.asyncordersystem.entity.Order;
+import com.sushant.asyncordersystem.repository.OrderRepository;
 
 @Service
 public class OrderService {
-	private final Map<Long, Order> orders = new HashMap<>();
-    private final AtomicLong idGenerator = new AtomicLong(1);
+	private final OrderRepository orderRepository;
+    
+    public OrderService(OrderRepository orderRepository) {
+    	this.orderRepository=orderRepository;
+    }
     
     public OrderResponse createOrder(OrderRequest orderRequest) {
-    	Long id=idGenerator.getAndIncrement();
     	
-    	Order order= new Order(id,
+    	Order order= new Order(
     			orderRequest.customerName(),
     			orderRequest.product(),
     			orderRequest.price(),
     			"CREATED");
-    	orders.put(id,order);
-    	
+    	Order savedOrder=orderRepository.save(order);
     	return new OrderResponse(
-    			order.getId(),
-    			order.getCustomerName(),
-    			order.getProduct(),
-    			order.getPrice(),
-    			order.getStatus()
+    			savedOrder.getId(),
+    			savedOrder.getCustomerName(),
+    			savedOrder.getProduct(),
+    			savedOrder.getPrice(),
+    			savedOrder.getStatus()
     			);
     }
     
     public List<OrderResponse> getAllOrders(){
-    	return orders.values().stream()
+    	
+    	return orderRepository.findAll().stream()
     			.map(order-> new OrderResponse(order.getId(),order.getCustomerName(),order.getProduct(),order.getPrice(),order.getStatus()))
     			.toList();
     }
     
     public OrderResponse getOrder(Long id) {
-    	Order order= orders.get(id);
+    	Order order= orderRepository.findById(id).get();
     	if(order!=null) {
     		return new OrderResponse(order.getId(),order.getCustomerName(),order.getProduct(),order.getPrice(),order.getStatus());
     	}
@@ -51,7 +51,7 @@ public class OrderService {
     
     public void deleteOrder(Long id) {
     	
-    	orders.remove(id);
+    	orderRepository.deleteById(id);
     	
     }
 }
