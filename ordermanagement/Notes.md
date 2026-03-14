@@ -94,3 +94,58 @@ Defines the primary key.
 
 @GeneratedValue  
 Allows the database to generate IDs automatically.
+
+# Module 3 — Address Entity
+
+## What is Address
+
+Address represents a delivery location for a customer.
+
+Customers may have multiple delivery locations such as home, office, or relatives' homes.
+
+## Why Address is Separate Entity
+
+If address fields were stored directly inside the Customer table, the system would only allow one address per customer.
+
+Separating Address into its own table allows one customer to store multiple addresses.
+
+Relationship:
+
+Customer (1) → Address (*)
+
+## Database Design
+
+addresses
+
+id
+customer_id
+street
+city
+state
+postal_code
+country
+created_at
+
+## JPA Mapping
+
+@ManyToOne
+@JoinColumn(name = "customer_id")
+
+Each address belongs to a specific customer.
+
+## Java Features Used
+
+LocalDateTime (Java 8)
+
+Advantages:
+- immutable
+- thread safe
+- better API compared to java.util.Date
+
+## SOLID Principle
+
+Single Responsibility Principle (SRP)
+
+Customer handles user identity.
+
+Address handles delivery location.
