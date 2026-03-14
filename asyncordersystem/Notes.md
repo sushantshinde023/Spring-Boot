@@ -738,3 +738,64 @@ instead of localhost.
 ## Key Learning
 
 Using Docker for infrastructure components like databases is a common practice in modern backend development.
+
+# Module 4 – Global Exception Handling
+
+## What We Built
+
+Implemented centralized exception handling using Spring Boot.
+
+Instead of returning raw stack traces, APIs now return structured error responses.
+
+Example error response:
+
+{
+ "status": false,
+ "message": "Order not found",
+ "errorCode": "ORDER_NOT_FOUND"
+}
+
+## Custom Exception
+
+A custom exception `OrderNotFoundException` was created for domain-specific errors.
+
+This improves clarity and allows mapping exceptions to specific HTTP responses.
+
+## Global Exception Handler
+
+Spring provides `@RestControllerAdvice` for centralized exception handling.
+
+Example:
+
+@RestControllerAdvice
+public class GlobalExceptionHandler
+
+Methods annotated with `@ExceptionHandler` intercept exceptions and return custom responses.
+
+## Validation Error Handling
+
+Validation failures are handled using:
+
+MethodArgumentNotValidException
+
+This ensures consistent validation error responses.
+
+## Design Pattern
+
+Template Method Pattern
+
+Spring's exception resolution follows a predefined flow where developers plug in custom handlers.
+
+## SOLID Principle
+
+Single Responsibility Principle
+
+Controllers focus on request handling while exception handling is delegated to a separate class.
+
+## Key Learning
+
+Centralized exception handling improves:
+
+- API consistency
+- code readability
+- maintainability

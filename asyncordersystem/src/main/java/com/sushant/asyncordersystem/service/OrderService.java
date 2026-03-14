@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.sushant.asyncordersystem.dto.OrderRequest;
 import com.sushant.asyncordersystem.dto.OrderResponse;
 import com.sushant.asyncordersystem.entity.Order;
+import com.sushant.asyncordersystem.exception.OrderNotFoundException;
 import com.sushant.asyncordersystem.repository.OrderRepository;
 
 @Service
@@ -42,11 +43,10 @@ public class OrderService {
     }
     
     public OrderResponse getOrder(Long id) {
-    	Order order= orderRepository.findById(id).get();
-    	if(order!=null) {
-    		return new OrderResponse(order.getId(),order.getCustomerName(),order.getProduct(),order.getPrice(),order.getStatus());
-    	}
-    	return null;
+    	Order order= orderRepository.findById(id).orElseThrow(()->new OrderNotFoundException("Order With id"+id+" not found"));
+    
+    	return new OrderResponse(order.getId(),order.getCustomerName(),order.getProduct(),order.getPrice(),order.getStatus());
+   
     }
     
     public void deleteOrder(Long id) {
