@@ -566,3 +566,48 @@ Modern backend systems rely heavily on:
 * Layered architecture
 * Repository pattern
 * SOLID principles
+
+# Module 2 – Order REST API
+
+## What We Built
+
+Implemented first REST APIs for order management.
+
+Endpoints:
+
+POST /orders  
+GET /orders  
+GET /orders/{id}  
+DELETE /orders/{id}
+
+DTOs were introduced to separate API contract from internal entities.
+
+## Java 17 Feature Used
+
+Records were used for DTOs to reduce boilerplate code.
+
+Example:
+
+public record OrderRequest(String customerName,String product,double price){}
+
+Records automatically generate:
+
+- constructor
+- getters
+- equals
+- hashCode
+- toString
+
+## Design Pattern
+
+DTO Pattern
+
+Used to transfer data between client and server without exposing entity.
+
+## SOLID Principle
+
+SRP – Controller handles HTTP requests while service handles business logic.
+
+## Key Learning
+
+API layer should remain independent from persistence layer.
