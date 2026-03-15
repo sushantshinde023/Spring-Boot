@@ -149,3 +149,45 @@ Single Responsibility Principle (SRP)
 Customer handles user identity.
 
 Address handles delivery location.
+
+# Module 4 — Product Entity
+
+## What is Product
+
+Product represents an item that can be purchased by customers.
+
+Examples include food items in delivery apps or goods in e-commerce platforms.
+
+## Product Fields
+
+Product
+- id
+- name
+- description
+- price
+- availableQuantity
+- createdAt
+
+## Why BigDecimal Is Used For Price
+
+Floating point types like double cause precision errors.
+
+Example:
+
+0.1 + 0.2 = 0.30000000000000004
+
+BigDecimal provides precise decimal arithmetic and is the standard for financial calculations.
+
+## Inventory Handling
+
+The availableQuantity field tracks stock levels.
+
+When a customer places an order, the system reduces availableQuantity accordingly.
+
+If availableQuantity reaches zero, the product is considered out of stock.
+
+## SOLID Principle
+
+Single Responsibility Principle.
+
+Product entity manages product catalog data only.

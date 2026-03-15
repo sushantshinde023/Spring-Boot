@@ -1,0 +1,216 @@
+Apache Kafka(event,log,history)
+
+	- Apache Kafka is an open-source distributed event streaming platform
+	- Open-source- Its freely available to use
+	- distributed - It can run in ditributed environment
+	- event-streaming - Is a way of producing and consuming data
+	
+		e.g. Media House and reporter
+		e.g. Coffee shop (Customer,Cashier,chef,waiter)
+			- Customer orders coffe then cashier takes order and notify chef and waiter
+			- imagine there is rush of customer in a shop the above way is not feasible because each time cashier will not go and inform chef and waiter
+			- After Order placed event no one is listening to the event 
+			- let's say there is digital board in restaurant , once order placed, the cashier push the order to digital display, so chef and waiter are watching that, customer will have token number for that
+			- Hence rush is avoided
+		e.g. Postman checking to deliver letter multiple times, we can avoid this by postbox
+	- No direct communication is needed, hence anyone can leave and join without disturbing others
+		
+	- Kafka helps by
+		- Decoupling services ( if we have multiple chefs the process will be same , chefs will keep checking digital board)
+		- Scalability
+		- Replayability
+		- Efficiency
+		
+		
+  -> Event streaming means continuosly capturing events( data) in real-time, storing them in a 
+  	log(like timeline- logs will always appended at end.There are multiple log files created so that parallel processing happens, related logs go in one log file.  )
+  	and allowing systems to react to them either immediately or later
+  	
+  -> Producer -> Cashier
+  -> Events(orders) -> stored in cafka(Digital board)
+  -> Consumer (chef, waiter)
+  
+  -> we can take example of zomato as well user placed order -> restaurant will be notified, delivery agent will be notified
+  
+  -> Event means passing data, is event streaming is only way to pass data not really
+  
+  	- Request/Response - One system calls another and waits for reply e.g. REST API, HTTP
+  	- Batch processing - System processes large chunks of data at intervals e.g. Nightly data imports, reports
+  	- Message Queues - One system sends a messge to a queue, another pulls from it. e.g. RabbitMQ,SQS
+  	- Event Streaming - Systems send and react to a constants flow of events. Kafka, pulsar
+  	
+  	
+  -> Kafka like WhatsApp Group
+  
+  	- people sending messages are producers
+  	- peaople reading messages are consumer
+  	- Group chat are Kafka topic
+  	- There are more than one groups we have so each group is kafka topic
+  	- work topic, friends topic -> we will send related messages to to related group because we know who all are consumer means reader of that group so we will push related messages
+  	- Even if one of the member of group is offline he will not miss the message, once he is back online he will receive message
+  	-  like10 consumer listening to topic if three are  offline , the message is not lost, they will start consuming from where they left 
+  	
+  	- messages are stored in order, so coversation flow will not be missed
+  	- Multiple consumer consumes same messages
+  	
+  	
+  	
+  	RabbitMQ vs Kafka
+  	
+  	Model They are operating 
+  		- Kafka operates on event streaming model which is based on logs
+  		- RabbitMQ works on Message Queuing model
+  	Message Storage
+  	
+  		- Kafka keeps all the messages for mentioned period of time, so consumer can reread
+  		- RabbitMQ deletes message after it's consumed
+  		
+  	Consumers 
+  		- in Kafka Each consumer group can read individually
+  				Consumer Group : we can group consumer together which is consumer group
+  		- RabbitMQ messages are removed from queue once message is delivered
+  	
+  	Best For 
+  	
+  		- Kafka is best suitable for High-throughput, real-time analytics, data replay
+  			-Throughput: A rate at which messages are processed
+  		- RabbitMQ useful for Task Queuing, short lived jobs
+  		
+  	Persistence 
+  		- Designed for long term storage and replay
+  		- RabbitMQ focused on short term delivery
+  		
+  	Ordering of event
+  	
+  		- Kafka Guarantees order of events within a partition
+  		- RabbitMQ has no strict ordering unless manually handled
+  		
+  	Throughput
+  	
+  		- Kafka has very high throughput(designed for streaming big data)
+  		- RabbitMQ has moderate
+  		
+  		
+ =================================================================================
+ 
+ 
+ *********** KAFKA Architecture and Components ********
+  
+  
+  => Event
+  => Producer
+  => Consumer
+  => Topics
+  => Partitions
+  => Consumer Groups
+  => Offset
+  => Consumer Rebalancing
+  
+  
+  => Events(Something Happened + Its Data)
+  
+  	- Any meaningful action is called event
+  	- e.g.  Order placed ,Restaurant Accepted order, Payment done 
+    - Event is not just message that this event is happened but it also has its data
+    - like Order placed will have data like Order id, payment id, order amt ...etc
+  
+   => Producer(Producer is nothing but sender)
+   
+   		- Producer is someone who produces the event
+   		- In Kafka any service that produces an event is producer
+   		- Order service creates event order placed so order service is producer, there can be N number of producers
+   	
+   => Consumer
+   
+   	- Consumer is someone who is consuming that particular event
+   	- suppose Order service created event Order Placed -> Notification service will be consumer, restaurant service will be consumer, Invoice service will consumer
+   
+   => Topics
+   
+   	- Its like channel for receiving messages/events
+   	- way of segregating messages within kafka
+   	- Because if we have 10 producers liek Order service, Customer service, Paymetn service etc all messages go in kafka if there is no segregation its chaos
+   	- Its best to have some sort of segregation so there is no chaos, that will be easy for consumers to consume data
+   	- Because we have consumer , so consumer will say i'm notification service i just want to read the order related messages, so what we can do is
+   	 we can have a topic called order  and the producer i.e. order service  can send the order related or order confirmation data to that particular topic
+   	- then notification service can just listen to that topic , It does not care about other topic
+   	- So Topic is like named group or channel for messages
+   	- Its segregation in kafka
+   	
+   => Partitions
+   	- Within topic there might be  lots of msgs, lates say sale day, In the Topics there is concept of partition like partition1, partition2 they will do further segregation within topic itself
+   	- e.g. lets say we have topic Order -> we can have sub partition so that different consumers can subscribe or listen to those partitions and do the processing
+   	
+    => Consumer Groups
+    
+    - If we have partitions we will need team of consumers also for sharing message load 
+    - if 1 million order placed then 1 million events will be sent to order topic in different partitions
+    - so we should have a team of consumers consuming messages/events quickly, so in that case we can have consumers that are grouped together, we can name that group as well
+    - So this is  basically a team of consumers sharing a message load for that particular topic and they are listenening to individual partitions
+   
+   => Consumer Rebalancing
+   
+   	-  It's a process of redistributing the topic partition among the consumer within the consumer group, which ensures that consumer is assigned a fair share of partition to read and process
+   	- It happens automatically when consumer joins or leaves or changes within the group or when new partitions are added
+   	
+   => Offset
+   
+   	- In one line we can say it's like bookmark of your last read message
+   	- In whatsapp it shows from where messages are unread,  unread messages
+   	- In kafka offset is number showing position of last message read
+  
+  - There are multiple instances of kafka running, those instances are call broker inside Cluster
+  - Suppose we have four kafka instances running together all  these instances can run in cluster because they are serving the same application
+  - Why we need to have multiple instances of kafka ?
+  	for better load management, if there is lot of load
+  - If lot of things are running in cluster 
+  	we will need some sort of manager who will keep track or who will coordinate all the brokers in a cluster, that is where zookeeper comes in picture
+  - Zookeeper is a service that helps to manage the entire kafka cluster 
+  - in newer version of kafka , kafka is moving away feom zookeeper
+  - because when we install kafka, we will need to install kafka first, for less dependency
+  - 
+  
+ -> Retention : How long kafka stores messages
+ -> Replication : Kafka keep copies of messages for safety
+ -> producer Acknowledgement : Ways to confirm if message was successfully sent
+ -> Dead Letter Queue(DLQ) : Special place to store failed messages
+ -> Kafka Connect : Tool to connect kafka with databases, cloud etc
+ -> Kafka Stream : Allows you to process data inside Kafka in real-time
+ 
+   	
+   	
+   => Ggetting Kafka CLI acces when kafka and zookeper installed using docker
+   
+   docker exec -it <kafka-container-name> bash
+   
+   - creating topic(my-topic) with partions(3), kafka is running on --bootstrap-server localhost:9092, --replication-factor 1 means no backup only one copy
+   
+   	kafka-topics --create --topic my-topic --bootstrap-server localhost:9092 --partitions 3 --replication-factor 1
+   		
+  	- Listing topics in a broker
+  	
+  	 kafka-topics --list --bootstrap-server localhost:9092
+  	 
+  	 - To see details of topic
+  	 
+  	 kafka-topics --describe --topic my-topic --bootstrap-server localhost:9092
+  	 
+  	=> To produce messages kafka produces tool Kafka client tool
+  	
+  	kafka-console-producer --topic my-topic --bootstrap-server localhost:9092
+  	
+  	=> using consumer tool
+  	
+  		kafka-console-consumer --topic my-topic --bootstrap-server localhost:9092 --from-beginning
+  		
+  		kafka-console-consumer --topic my-topic --bootstrap-server localhost:9092 --group my-group --from-beginning
+  		
+  		only one instance from consumer group will listen to message, if you open two instance in a group the message will be read only one
+  		
+   => Kafka consumer uses key to assign partition
+   
+   	kafka-console-producer --topic my-topic --bootstrap-server localhost:9092 --property "parse.key=true" --property "key.sparator=:"
+   	
+   => To sse offset (How much read amd how much left)
+   
+   	kafka-consumer-groups --bootstrap-server localhost:9092 --describe --group my-group
