@@ -219,3 +219,12 @@ Apache Kafka(event,log,history)
    	=> If topic does not exist and we refer to that topic in producer , that topic will get created automatically,
    	   but this way is not recommanded , we should create it upfront
    	   we can create it from Kafka CLI , another way is java baseed configuration file
+   	   
+   	   
+   	 ==============================================================================
+   	 
+   	 ********* Serialization and DeSerialization***********
+   	 
+   	 - Till now we were sharing simple string as message from producer.
+   	 - We will now setup producer to produce Object to Kafka topic
+   	 - Producesr sending rider location, consumer tracking live location
