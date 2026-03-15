@@ -214,3 +214,8 @@ Apache Kafka(event,log,history)
    => To sse offset (How much read amd how much left)
    
    	kafka-consumer-groups --bootstrap-server localhost:9092 --describe --group my-group
+   	
+   	
+   	=> If topic does not exist and we refer to that topic in producer , that topic will get created automatically,
+   	   but this way is not recommanded , we should create it upfront
+   	   we can create it from Kafka CLI , another way is java baseed configuration file

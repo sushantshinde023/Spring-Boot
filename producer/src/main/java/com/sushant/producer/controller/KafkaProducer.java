@@ -19,7 +19,7 @@ public class KafkaProducer {
 	
 	@PostMapping("/send")
 	public String sendMessage(@RequestParam String msg) {
-		kafkaTemplate.send("my-topic",msg);
+		kafkaTemplate.send("my-topic-1",msg);
 		return "Message-sent: "+msg;
 		
 	}
