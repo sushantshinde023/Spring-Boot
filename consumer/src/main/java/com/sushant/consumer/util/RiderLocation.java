@@ -1,4 +1,4 @@
-package com.sushant.producer.controller;
+package com.sushant.consumer.util;
 
 public class RiderLocation {
 	private String riderId;
