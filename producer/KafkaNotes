@@ -228,3 +228,49 @@ Apache Kafka(event,log,history)
    	 - Till now we were sharing simple string as message from producer.
    	 - We will now setup producer to produce Object to Kafka topic
    	 - Producesr sending rider location, consumer tracking live location
+   	 
+   	 
+   	 
+  ===================================================================================
+  
+  ==> Functional Interface
+  
+  	- A functional interface in java is an interface that contains exactly one abstract method
+  	- @Functional Interface
+  	-Built in Functional Interface
+  	
+  	-> Function<T,R>
+  	
+  		- Function takes input of Type T, returns something of type R
+  		- e.g. Function<String,Integer> getLength= s->s.length();
+  			sysout(getLength.apply("Sushant"))
+  			
+  		
+  			
+  	- Consumer<T>
+  	
+  		- Takes input of type T , does something, but returns nothing
+  		
+  		Consumer<String> printer=s-> Sysout("Message : "+s);
+  		printer.accept("Hello-World");
+  		
+  		
+  	- Supplier<T>
+  	
+  		- Takes no input, returns a value of type T
+  		
+  		Supplier<String> giveMessage=()->"Hello from supplier";
+  		Sysout(giveMessage.get());
+  		
+  	- Predicate<T>
+  	
+  		- Takes the input, returns true or false
+  		
+  		e.g. Predicate<String> isLong=s->s.length()>5;
+  		
+  			Sysout(isLong.test("Hello"));
+  =======================================================
+  			
+  => Spring Cloud Functions
+  
+  	- Lets you write one java function- a Supplier, Function , or Consumer - then we can  bind it to HTTP/Kafka/Lambda by configuration alone
