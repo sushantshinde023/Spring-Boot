@@ -274,3 +274,24 @@ Apache Kafka(event,log,history)
   => Spring Cloud Functions
   
   	- Lets you write one java function- a Supplier, Function , or Consumer - then we can  bind it to HTTP/Kafka/Lambda by configuration alone
+  	
+  	
+ =========================================================
+ 
+ ===> Spring cloud stream
+ 	- for event driven microservices
+ 	- Spring cloud stream lets you write plain java functions and then bind them to messaging destination(topics,queues) without writing any broker specific code
+ 	- Using spring cloud stream it helps to switch easily between messanging  either rabbitMQ or kafka
+ 	- just configu changes
+ 	
+ 	<dependency>
+	      <groupId>org.springframework.cloud</groupId>
+	      <artifactId>spring-cloud-stream-binder-kafka</artifactId>
+   		 </dependency>
+   		 
+   		 to 
+   		 
+   		 <dependency>
+	      <groupId>org.springframework.cloud</groupId>
+	      <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
+   		 </dependency>
