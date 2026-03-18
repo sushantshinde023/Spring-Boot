@@ -1,5 +1,6 @@
 package com.sushant.producer.controller;
 
+import java.util.Random;
 import java.util.function.Supplier;
 
 import org.springframework.context.annotation.Bean;
@@ -10,8 +11,10 @@ public class KafkaProducerStreams {
 	@Bean
 	public Supplier<RiderLocation> sendRiderLocation()
 	{
+		Random random= new Random();
 		return ()->{
-			RiderLocation location= new RiderLocation("ider234",16.7,89.3);
+			String riderId="rider "+random.nextInt(30);
+			RiderLocation location= new RiderLocation(riderId,16.7,89.3);
 			System.out.println("Sending : "+location.getRiderId());
 			return location;
 		};

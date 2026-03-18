@@ -295,3 +295,10 @@ Apache Kafka(event,log,history)
 	      <groupId>org.springframework.cloud</groupId>
 	      <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
    		 </dependency>
+   		 
+   	==========================================
+   	
+  ==> Sending to different partitions
+   	
+   	- kafka sends message to particular partition based on hash of the key , in our case riderId which we have hardcoded to rider234, hence events are going to same partition
+   	- kafka-console-consumer --topic rider --bootstrap-server localhost:9092 --group my-group --from-beginning --property print.partition=true
