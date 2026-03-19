@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.microservicesproject.companyms.entity.Company;
+import com.spring.microservicesproject.companyms.messaging.dto.ReviewMessage;
 import com.spring.microservicesproject.companyms.repository.CompanyRepository;
 
 import jakarta.transaction.Transactional;
@@ -58,6 +59,12 @@ public class CompanyServiceImpl implements CompanyService{
 			 return true;
 		 }else
 			 return false;
+	}
+
+	@Override
+	public void updateCompanyRating(ReviewMessage reviewMessage) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
