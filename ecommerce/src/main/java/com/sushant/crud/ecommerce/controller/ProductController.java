@@ -2,6 +2,7 @@ package com.sushant.crud.ecommerce.controller;
 
 import java.util.List;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,11 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sushant.crud.ecommerce.dto.ProductRequest;
 import com.sushant.crud.ecommerce.dto.ProductResponse;
-import com.sushant.crud.ecommerce.entity.Product;
 import com.sushant.crud.ecommerce.service.ProductService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/products")
+@Validated
 public class ProductController {
 	
 	private final ProductService productService;
@@ -29,7 +32,8 @@ public class ProductController {
 	
 	
 	@PostMapping
-	public ProductResponse  createProduct(@RequestBody ProductRequest product) {
+	public ProductResponse  createProduct(@Valid @RequestBody ProductRequest product) {
+		System.out.println("product name is :"+product.name());
 		return productService.createProduct(product);
 	}
 	
@@ -43,7 +47,7 @@ public class ProductController {
 		return productService.getProductById(productId);
 	}
 	@PutMapping("/{productId}")
-	public ProductResponse getProductById(@PathVariable Long productId,@RequestBody ProductRequest product) {
+	public ProductResponse getProductById(@PathVariable Long productId,@Valid @RequestBody ProductRequest product) {
 		return productService.updateProduct(productId,product);
 	}
 	
