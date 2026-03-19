@@ -61,5 +61,22 @@ spring.rabbitmq.host=localhost
 spring.rabbitmq.port=5672
 spring.rabbitmq.username=guest
 spring.rabbitmq.password=guest
+
+
+==> Start with Review service as it is publisher
+
+	- when new review is added this event will trigger and company service will aware new review is added and it will fetc avg rating for that particular company against which review is added
+	-> RabbitMQConfiguration class
+	
+		- It allows to define Bean and allows us to control behaviour of messaging
+		- we will neeed three beans
+		
+			-> To create Queue
+			-> MessageConversion (Serialize and De-Serialize)
+			-> Bean to Get instance of RabbitTemplate( it is helper class)
+			
+			Note : Dependencies should come from amqp pkg
+			
+		 
 	
 		
