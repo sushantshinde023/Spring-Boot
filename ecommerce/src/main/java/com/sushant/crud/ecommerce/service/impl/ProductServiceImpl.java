@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.sushant.crud.ecommerce.dto.ProductRequest;
+import com.sushant.crud.ecommerce.dto.ProductResponse;
 import com.sushant.crud.ecommerce.entity.Product;
 import com.sushant.crud.ecommerce.exception.ResourceNotFoundException;
 import com.sushant.crud.ecommerce.repository.ProductRepository;
@@ -21,34 +23,53 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product createProduct(Product product) {
+	public ProductResponse createProduct(ProductRequest productRequest) {
 		// TODO Auto-generated method stub
-		return productRepository.save(product);
+		Product product=new Product();
+		product.setName(productRequest.name());
+		product.setDescription(productRequest.description());
+		product.setPrice(productRequest.price());
+		product.setQuantity(productRequest.quantity());
+		
+		Product saved = productRepository.save(product);
+
+	    return mapToResponse(saved);
+	}
+
+	private ProductResponse mapToResponse(Product product) {
+		ProductResponse response = new ProductResponse( product.getId(),product.getName(),product.getDescription(),product.getPrice());
+		return response;
 	}
 
 	@Override
-	public List<Product> getAllProducts() {
+	public List<ProductResponse> getAllProducts() {
 		// TODO Auto-generated method stub
-		return productRepository.findAll();
+		 List<Product> allProducts=productRepository.findAll();
+		 
+		 return allProducts.stream().map(product->mapToResponse(product)).toList();
 	}
 
 	@Override
-	public Product getProductById(Long id) {
+	public ProductResponse getProductById(Long id) {
 		// TODO Auto-generated method stub
-		return productRepository.findById(id).orElseThrow(()->  new ResourceNotFoundException("Product not found with id " + id));
+		Product producet=productRepository.findById(id).orElseThrow(()->  new ResourceNotFoundException("Product not found with id " + id));
+		return  mapToResponse(producet);
 	}
 
 	@Override
-	public Product updateProduct(Long id, Product productToBeUpdated) {
+	public ProductResponse updateProduct(Long id, ProductRequest productToBeUpdated) {
 		// TODO Auto-generated method stub
 		
 		Product dbProduct=productRepository.findById(id).orElseThrow(()->  new ResourceNotFoundException("Product not found with id " + id));
-		dbProduct.setName(productToBeUpdated.getName());
-		dbProduct.setDescription(productToBeUpdated.getDescription());
-		dbProduct.setPrice(productToBeUpdated.getPrice());
-		dbProduct.setQuantity(productToBeUpdated.getQuantity());
+		dbProduct.setName(productToBeUpdated.name());
+		dbProduct.setDescription(productToBeUpdated.description());
+		dbProduct.setPrice(productToBeUpdated.price());
+		dbProduct.setQuantity(productToBeUpdated.quantity());
 		
-		return productRepository.save(dbProduct);
+		Product updated=productRepository.save(dbProduct);
+		return mapToResponse(updated);
+		
+		
 	
 	}
 

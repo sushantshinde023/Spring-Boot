@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sushant.crud.ecommerce.dto.ProductRequest;
+import com.sushant.crud.ecommerce.dto.ProductResponse;
 import com.sushant.crud.ecommerce.entity.Product;
 import com.sushant.crud.ecommerce.service.ProductService;
 
@@ -27,21 +29,21 @@ public class ProductController {
 	
 	
 	@PostMapping
-	public Product createProduct(@RequestBody Product product) {
+	public ProductResponse  createProduct(@RequestBody ProductRequest product) {
 		return productService.createProduct(product);
 	}
 	
 	@GetMapping
-	public List<Product> getAllProducts(){
+	public List<ProductResponse> getAllProducts(){
 		return productService.getAllProducts();
 	}
 	
 	@GetMapping("/{productId}")
-	public Product getProductById(@PathVariable Long productId) {
+	public ProductResponse getProductById(@PathVariable Long productId) {
 		return productService.getProductById(productId);
 	}
 	@PutMapping("/{productId}")
-	public Product getProductById(@PathVariable Long productId,@RequestBody Product product) {
+	public ProductResponse getProductById(@PathVariable Long productId,@RequestBody ProductRequest product) {
 		return productService.updateProduct(productId,product);
 	}
 	
