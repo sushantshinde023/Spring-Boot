@@ -1,0 +1,59 @@
+==> Message Queues
+	
+	- we have two services Job service and Review Service and they are communicating
+	- If a review service is down, in that case job service won't be able to communicate with Review service, we will get error
+	- The communication between Job and review service is synchronous, because of that there is dependency in architecture i.e. tight coupling
+	- How to decouple this communication 
+	
+	- Here Message Queue comes in picture for asynchronous communication which will provide us loose coupling
+	- Message from Job service will left in Message Queue and later Review service will consume it if service is down. Message in  Message Queue will be there for a while
+	- Need of Message Queue
+		- Decoupling
+		- Asynchronous communication - continues execution without waiting for immediate response , if job service does not need an immediate response and it just want to send some data to review service
+										It can just send the data in Message Queue and just forget it.It is useful when certain operation takes time and are not that critical
+										
+		- Scalability 
+		- Fault Tolerance - If Microservice is temprorily down then msg are stored in Message queue
+		- Event Driven Architecture 
+		- Time Decoupling
+		
+		- examples Kafka,RabbitMQ,Amazon SQS,ActiveMQ
+
+
+==> RabbitMQ
+
+	- Widely used open source Message Broker
+	- Suppose we want to create Review along with Job, can be implemented with message queue
+-> what we are going to build 
+
+	- we have review service and company service
+	- Review related info is stored in review service, reviews are belongs to companies
+	- we can associate aggregate rating information, like whether company is rated 3*,4* or what
+	- whenever new review is posted agreegate review should also change accordingly
+	- Here review service will be producer and company service will be consumer
+	
+	
+=> Installing RabbitMQ with docker
+
+	- Command Line command
+	
+		docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+		
+		
+	- docker-compose
+	
+		rabbitmq:
+			image: rabbitmq:3-management
+			container_name: rabbitmq
+			ports:
+				- 5672:5672  //this one is default rabbitmq port
+				- 15672:15672 //this is for rabbitmq management - interface we can open in browser and manage //http://localhost:15672/#/
+								//default username and password is guest
+			networks:
+				- job-app
+
+
+	
+	
+	
+		
