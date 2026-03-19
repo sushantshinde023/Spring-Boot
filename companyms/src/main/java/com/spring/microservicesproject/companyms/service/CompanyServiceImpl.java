@@ -6,17 +6,29 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.microservicesproject.companyms.client.ReviewClient;
 import com.spring.microservicesproject.companyms.entity.Company;
 import com.spring.microservicesproject.companyms.messaging.dto.ReviewMessage;
 import com.spring.microservicesproject.companyms.repository.CompanyRepository;
 
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.NotFoundException;
 
 @Service
 public class CompanyServiceImpl implements CompanyService{
 	
-	@Autowired
+	
 	private CompanyRepository companyRepository;
+	
+	private ReviewClient reviewClient;
+	
+	
+
+	public CompanyServiceImpl(CompanyRepository companyRepository, ReviewClient reviewClient) {
+		super();
+		this.companyRepository = companyRepository;
+		this.reviewClient = reviewClient;
+	}
 
 	@Override
 	public List<Company> findAll() {
@@ -64,6 +76,14 @@ public class CompanyServiceImpl implements CompanyService{
 	@Override
 	public void updateCompanyRating(ReviewMessage reviewMessage) {
 		// TODO Auto-generated method stub
+		
+		//To calculate Review we don't have all the reviews so will call get reviews for the company and calculate
+		Company company=companyRepository.findById(reviewMessage.getCompanyId()).orElseThrow(()-> new NotFoundException("Company Not found"+reviewMessage.getCompanyId()));
+		
+		double avgRating=reviewClient.getAverageReview(company.getCompanyId());
+		company.setRating(avgRating);
+		companyRepository.save(company);
+	
 		
 	}
 

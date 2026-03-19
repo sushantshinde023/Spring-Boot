@@ -16,6 +16,7 @@ public class Company {
 	private Long companyId;
 	private String name;
 	private String description;
+	private Double rating;
 	
 	
 	
@@ -27,6 +28,26 @@ public class Company {
 	
 
 	
+
+
+
+	public Double getRating() {
+		return rating;
+	}
+
+
+
+
+
+
+
+	public void setRating(Double rating) {
+		this.rating = rating;
+	}
+
+
+
+
 
 
 
