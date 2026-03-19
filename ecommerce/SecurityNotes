@@ -1,0 +1,30 @@
+Steps to enable Security
+
+Step 1 : Add dependency
+
+	- By default it will secure all endpoints with basic security(OOTB Spring security)
+	
+Step 2 : Create Configuration file 
+
+	2A: Here we will be intercepting incoming http request and update SecurityFilterChain using HttpSecurity, to authorize and protect endpoints based on need
+	
+	2B : Creating password encoder bean - most commonly used password encoder is BCryptPasswordEncoder(Which will be helpful for User Registration)
+	
+	2C: Create user registration api
+	
+
+
+Step 3 : Enabling JWT (JSON Web Token)
+
+	3A : Add jjwt dependencies in pom.xml
+			like jjwt-api,jjwt-impl,jjwt-jackson from 
+			
+	3B : Create JwtUtil class
+	
+			- Responsible for Generating new token from username with expiration time
+			
+	3C : Create Login api
+	
+			- UserService will fetch user by unique value check if user exist
+			-  check stored hash and incoming request has is equal if not throw exception 
+			- if both hash equal from JwtUtil generate token
