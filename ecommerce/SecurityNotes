@@ -28,3 +28,95 @@ Step 3 : Enabling JWT (JSON Web Token)
 			- UserService will fetch user by unique value check if user exist
 			-  check stored hash and incoming request has is equal if not throw exception 
 			- if both hash equal from JwtUtil generate token
+			
+			
+Step 4 : Validating followed request JWT token
+		4A:  Checking for valid token from Header in our own filter
+			- Once User Logs in token is stored in SecurityContext 
+			- For followed address we will use or custom filter JwtFilter which extends OncePerRequestFilter and provide implementation for doFilterInternal method
+				- Here we will check if authHeader from request is null or not and authHeader starts with Bearer if both condition satisfy we will extract token using substring
+				
+				
+		4B: Extract user name from token using utility method getUserNameFromJwtToken from JwtUtil class which takes String token as argument
+			- To Extract Username
+			
+				a. we will need decoded signed key 
+				- If we are using bas64 encoded key use this
+					private Key key() {
+						return Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
+					}
+					
+				- otherwise for plain text e=secret key use below
+				
+					private Key key() {
+				        return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+				    }
+					
+				b. then we can extract username from token using this key 
+				
+					private Claims extractAllClaims(String token) {
+					        return Jwts.parserBuilder()
+					                   .setSigningKey(key())
+					                   .build()
+					                   .parseClaimsJws(token)
+					                   .getBody();
+					  }
+					  
+					  - with this we can extract username as well as token expiration
+						
+			4C : Validating token
+			
+				- we validate token by with username and token expiration
+				
+					- our util method from JwtUtility clas extract expiration from token  and validate
+					
+						public boolean isTokenValid(String token, String username) {
+						      return username.equals(getUserNameFromJwtToken(token)) && !isTokenExpired(token);
+						 }
+						 
+					- It extract expiration time from token useing extractAllClaims() method above from JwtUtil
+					- from same extractAllClaims we extract username like below
+					
+					
+					
+					public String getUserNameFromJwtToken(String token) {
+					      return extractAllClaims(token).getSubject();
+					  }
+				
+					 public Date extractExpiration(String token) {
+					     return extractAllClaims(token).getExpiration();
+					  }
+				
+				
+					  private boolean isTokenExpired(String token) {
+					      return extractExpiration(token).before(new Date());
+					  }
+					  
+					- final validate method will check 
+					
+						 public boolean isTokenValid(String token, String username) {
+						      return username.equals(getUserNameFromJwtToken(token)) && !isTokenExpired(token);
+						  }
+						  
+			4D : After validation in JwtFilter class
+			
+					- Create UsernamePasswordAuthToken and set in SecurityContextHolder, then continue remaining filterchain
+					if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+
+					    if (jwtUtil.isTokenValid(token, username)) {
+					
+					        UsernamePasswordAuthenticationToken authToken =
+					                new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
+					
+					        SecurityContextHolder.getContext().setAuthentication(authToken);
+					    }
+					}
+					
+					filterChain.doFilter(request, response);
+					
+					
+		5. Adding filter to filter chain in SecurityConfig file
+		
+				http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+				
+				http.httpBasic(httpBasic -> httpBasic.disable()); to disable deafult password coming in console

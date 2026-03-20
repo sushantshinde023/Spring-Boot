@@ -11,7 +11,7 @@ import com.sushant.crud.ecommerce.dto.UserRegisterDto;
 import com.sushant.crud.ecommerce.service.UserService;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/auth")
 public class UserController {
 	
 	private final UserService userService;
